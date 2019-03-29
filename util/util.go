@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -56,4 +57,9 @@ func createFileWithContent(filename, content string) error {
 	}
 
 	return nil
+}
+
+// ModifyPathSymbols modifies {} to : for flogo app usage
+func ModifyPathSymbols(path string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(path, "{", ":"), "}", "")
 }

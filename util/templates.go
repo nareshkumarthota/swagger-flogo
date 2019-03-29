@@ -34,14 +34,22 @@ func appBuilder() *flogo.App {
 
 	// Register the HTTP trigger
 	trg := app.NewTrigger(&rt.RestTrigger{}, map[string]interface{}{"port": {{.Port}}})
-	trg.NewFuncHandler(map[string]interface{}{"method": "{{.Method}}", "path": "{{.Path}}"}, {{.HandlerName}})
+	{{- range .PathData }}
+	{{$pathURL := .PathURL}}
+	{{- range .MethodData }}
+	trg.NewFuncHandler(map[string]interface{}{"method": "{{.MethodType}}", "path": "{{$pathURL}}"}, {{.HandlerName}})
+	{{- end }}
+	{{- end }}
 	return app
 }
 
+
+{{- range .PathData }}
+{{- range .MethodData }}
 func {{.HandlerName}}(ctx context.Context, inputs map[string]*data.Attribute) (map[string]*data.Attribute, error) {
 
 	// Execute the log activity
-	in := map[string]interface{}{"message": "logmessage", "flowInfo": "true", "addToFlow": "true"}
+	in := map[string]interface{}{"message": "logmessage from operationID:{{.HandlerName}}", "flowInfo": "true", "addToFlow": "true"}
 	_, err := flogo.EvalActivity(&log.LogActivity{}, in)
 	if err != nil {
 		return nil, err
@@ -65,4 +73,6 @@ func {{.HandlerName}}(ctx context.Context, inputs map[string]*data.Attribute) (m
 
 	return ret, nil
 }
+{{- end }}
+{{- end }}
 `

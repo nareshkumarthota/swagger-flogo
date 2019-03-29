@@ -9,8 +9,18 @@ type Config struct {
 
 // APIAppData holds app data retrieved from swagger file
 type APIAppData struct {
-	Port        string
-	Path        string
-	Method      string
-	HandlerName string
+	Port     string
+	PathData []Path
+}
+
+// Method holds method data
+type Method struct {
+	MethodType  string
+	HandlerName string // operationID treated as handler name
+}
+
+// Path holds all path details from swagger
+type Path struct {
+	PathURL    string
+	MethodData []Method
 }
