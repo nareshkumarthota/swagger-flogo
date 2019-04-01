@@ -17,6 +17,8 @@ func ExecuteTemplate(convType string, data interface{}) (bool, error) {
 	switch convType {
 	case "flogoapiapp":
 		t = template.Must(template.New("top").Parse(flogoAPITemplate))
+	case "flogodescriptor":
+		t = template.Must(template.New("top").Parse(flogoAppDescriptor))
 	default:
 		t = template.Must(template.New("top").Parse(flogoAPITemplate))
 	}
@@ -27,7 +29,13 @@ func ExecuteTemplate(convType string, data interface{}) (bool, error) {
 	}
 	s := buf.String()
 
-	createFileWithContent("flogoapiapp.go", s)
+	fileName := "flogoapiapp.go"
+	switch convType {
+	case "flogodescriptor":
+		fileName = "flogodescriptor.json"
+	}
+
+	createFileWithContent(fileName, s)
 
 	return true, nil
 }

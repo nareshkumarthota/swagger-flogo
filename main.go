@@ -9,7 +9,7 @@ import (
 
 func main() {
 	input := flag.String("input", "swagger.json", "input swagger file")
-	conversionType := flag.String("convertto", "flogoapiapp", "conversion type like flogoapiapp or flogoappdescriptor")
+	conversionType := flag.String("convertto", "flogoapiapp", "conversion type like flogoapiapp or flogodescriptor")
 
 	flag.Parse()
 

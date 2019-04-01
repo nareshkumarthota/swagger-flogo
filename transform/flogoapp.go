@@ -10,6 +10,12 @@ func SwaggerToFlogoAPI(config *Config) error {
 	return nil
 }
 
+// SwaggerToFlogoDescriptor transforms given swagger to flogo api application
+func SwaggerToFlogoDescriptor(config *Config) error {
+	util.ExecuteTemplate(config.ConversionType, assignData(config))
+	return nil
+}
+
 func assignData(config *Config) APIAppData {
 
 	data := APIAppData{}

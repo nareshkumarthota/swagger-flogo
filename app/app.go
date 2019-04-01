@@ -26,6 +26,8 @@ func Transform(config *transform.Config) {
 	switch config.ConversionType {
 	case "flogoapiapp":
 		transform.SwaggerToFlogoAPI(config)
+	case "flogodescriptor":
+		transform.SwaggerToFlogoDescriptor(config)
 	default:
 		fmt.Println("ConversionType not specified")
 	}

@@ -76,3 +76,69 @@ func {{.HandlerName}}(ctx context.Context, inputs map[string]*data.Attribute) (m
 {{- end }}
 {{- end }}
 `
+
+const flogoAppDescriptor = `
+{
+	"name": "SampleApp",
+	"type": "flogo:app",
+	"version": "0.0.1",
+	"appModel": "1.1.0",
+	"imports": [
+		"github.com/project-flogo/contrib/trigger/rest",
+		"github.com/project-flogo/flow",
+		"github.com/project-flogo/contrib/activity/log"
+	],
+	"triggers": [
+	  {
+		"id": "receive_http_message",
+		"ref": "#rest",
+		"name": "Receive HTTP Message",
+		"description": "Simple REST Trigger",
+		"settings": {
+		  "port": 9233
+		},
+		"handlers": [
+		{{- range .PathData }}
+		{{$pathURL := .PathURL}}
+		{{- range .MethodData }}
+		  {
+			"settings": {
+			  "method": "{{.MethodType}}",
+			  "path": "{{$pathURL}}"
+			},
+			"action": {
+			  "ref": "#flow",
+			  "settings": {
+				"flowURI": "res://flow:sample_flow"
+			  }
+			}
+		  },
+		{{- end }}
+		{{- end }}
+		]
+	  }
+	],
+	"resources": [
+	  {
+		"id": "flow:sample_flow",
+		"data": {
+		  "name": "SampleFlow",
+		  "tasks": [
+			{
+			  "id": "log_message",
+			  "name": "Log Message",
+			  "description": "Simple Log Activity",
+			  "activity": {
+				"ref": "#log",
+				"input": {
+				  "message": "Simple Log",
+				  "addDetails": "false"
+				}
+			  }
+			}
+		  ]
+		}
+	  }
+	]
+  }
+`
