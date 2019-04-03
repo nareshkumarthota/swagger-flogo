@@ -17,9 +17,10 @@ func init() {
 
 var input, port, conversionType, output string
 var appgen = &cobra.Command{
-	Use:   "appgen",
-	Short: "generates flogo/microgateway app",
-	Long:  "This plugin command generates supplied spec to flogo/microgateway app",
+	Use:              "appgen",
+	Short:            "generates flogo/microgateway app",
+	Long:             "This plugin command generates supplied spec to flogo/microgateway app",
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {},
 	Run: func(cmd *cobra.Command, args []string) {
 		config := &transform.Config{}
 
