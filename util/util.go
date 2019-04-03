@@ -5,21 +5,34 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 )
 
 // ExecuteTemplate creates required file from given inputs
-func ExecuteTemplate(convType string, data interface{}) (bool, error) {
+func ExecuteTemplate(conversionType, outFilePath string, data interface{}) (bool, error) {
 
 	var t *template.Template
 
-	switch convType {
+	funcMap := template.FuncMap{
+		// The name "increment" is what the function will be called in the template text.
+		"increment": func(i int) int {
+			return i + 1
+		},
+	}
+
+	var fileName string
+
+	switch conversionType {
 	case "flogoapiapp":
+		fileName = "flogoapiapp.go"
 		t = template.Must(template.New("top").Parse(flogoAPITemplate))
 	case "flogodescriptor":
-		t = template.Must(template.New("top").Parse(flogoAppDescriptor))
+		fileName = "flogodescriptor.json"
+		t = template.Must(template.New("top").Funcs(funcMap).Parse(flogoAppDescriptor))
 	default:
+		fileName = "flogoapiapp.go"
 		t = template.Must(template.New("top").Parse(flogoAPITemplate))
 	}
 
@@ -29,13 +42,7 @@ func ExecuteTemplate(convType string, data interface{}) (bool, error) {
 	}
 	s := buf.String()
 
-	fileName := "flogoapiapp.go"
-	switch convType {
-	case "flogodescriptor":
-		fileName = "flogodescriptor.json"
-	}
-
-	createFileWithContent(fileName, s)
+	createFileWithContent(filepath.Join(outFilePath, fileName), s)
 
 	return true, nil
 }

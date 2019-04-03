@@ -1,27 +1,28 @@
 package transform
 
 import (
+	"strings"
+
 	"github.com/nareshkumarthota/swagger-flogo/util"
 )
 
 // SwaggerToFlogoAPI transforms given swagger to flogo api application
 func SwaggerToFlogoAPI(config *Config) error {
-	util.ExecuteTemplate(config.ConversionType, assignData(config))
+	util.ExecuteTemplate(config.ConversionType, config.OutFilePath, appData(config))
 	return nil
 }
 
 // SwaggerToFlogoDescriptor transforms given swagger to flogo api application
 func SwaggerToFlogoDescriptor(config *Config) error {
-	util.ExecuteTemplate(config.ConversionType, assignData(config))
+	util.ExecuteTemplate(config.ConversionType, config.OutFilePath, appData(config))
 	return nil
 }
 
-func assignData(config *Config) APIAppData {
+func appData(config *Config) AppData {
 
-	data := APIAppData{}
+	data := AppData{}
 
-	// TO DO get port details from swagger if exists
-	data.Port = "8080"
+	data.Port = config.Port
 
 	// retrieve details from paths map
 	paths := config.SwaggerData["paths"].(map[string]interface{})
@@ -39,7 +40,7 @@ func assignData(config *Config) APIAppData {
 
 		mIndex := 0
 		for mk, mv := range methods {
-			data.PathData[index].MethodData[mIndex].MethodType = mk
+			data.PathData[index].MethodData[mIndex].MethodType = strings.ToUpper(mk)
 			data.PathData[index].MethodData[mIndex].HandlerName = mv.(map[string]interface{})["operationId"].(string)
 
 			// increment method index

@@ -5,10 +5,12 @@ type Config struct {
 	SwaggerData    map[string]interface{}
 	FileName       string
 	ConversionType string
+	Port           string
+	OutFilePath    string
 }
 
-// APIAppData holds app data retrieved from swagger file
-type APIAppData struct {
+// AppData holds app data retrieved from swagger file
+type AppData struct {
 	Port     string
 	PathData []Path
 }

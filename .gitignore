@@ -1,2 +1,4 @@
 swagger*.json
 flogoapiapp.go
+flogodescriptor.json
+test*
