@@ -76,7 +76,7 @@ const flogoAppDescriptor = `
 				"port": {{.Port}}
 			},
 			"handlers": [
-			{{ $pathsLen := len .PathData }} {{- range $index , $element := .PathData }} {{ $pathIndex := increment $index }}	{{$pathURL := .PathURL}}	{{- range .MethodData }}
+			{{ $pathsLen := len .PathData }} {{- range $index , $element := .PathData }} {{ $pathIndex := increment $index }}	{{$pathURL := .PathURL}}	{{ $mthdLen := len .MethodData }} {{- range $mindex , $melement := .MethodData }} {{ $methodIndex := increment $mindex }}
 				{
 					"settings": {
 						"method": "{{.MethodType}}",
@@ -88,7 +88,7 @@ const flogoAppDescriptor = `
 						"flowURI": "res://flow:sample_flow"
 						}
 					}
-				}{{ if eq $pathsLen $pathIndex }}{{else}},{{end}}
+				}{{ if eq $pathsLen $pathIndex }}{{ if eq $mthdLen $methodIndex }}{{else}},{{end}}{{else}},{{end}}
 			{{- end }} {{- end }}
 			]
 	  }
