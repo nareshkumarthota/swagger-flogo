@@ -44,6 +44,15 @@ func ExecuteTemplate(conversionType, outFilePath string, data interface{}) (bool
 
 	createFileWithContent(filepath.Join(outFilePath, fileName), s)
 
+	// support File generation
+	t = template.Must(template.New("top").Parse(supportFile))
+	buf = &bytes.Buffer{}
+	if err := t.Execute(buf, data); err != nil {
+		log.Fatal("error while rendering template from data: ", err)
+	}
+	s = buf.String()
+	createFileWithContent(filepath.Join(outFilePath, "support.go"), s)
+
 	return true, nil
 }
 
