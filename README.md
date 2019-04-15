@@ -22,7 +22,7 @@ swagger-flogo -input swagger.json -convertto flogoapiapp -port 9090 -output .
 The resulting output is two files get created `flogoapiapp.go` and `support.go`.  Use both files to build/install app. User defined code can be written in `support.go`.
 ```sh
 mkdir flogoapp
-cp support.go,flogoapiapp.go flogoapp
+cp support.go flogoapiapp.go ./flogoapp
 cd flogoapp
 go build
 ./flogoapp
