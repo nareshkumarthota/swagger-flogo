@@ -66,3 +66,13 @@ func loginUser_mthd(input interface{}) (map[string]interface{}, error) {
 	return output, nil
 }
 ```
+
+## Flogo Plugin Support
+This tool can be integrated into [flogocli](https://github.com/project-flogo/cli).
+```sh
+# Install your plugin
+$ flogo plugin install github.com/nareshkumarthota/swagger-flogo/cmd
+
+# Run your new plugin command
+$ flogo appgen
+```
