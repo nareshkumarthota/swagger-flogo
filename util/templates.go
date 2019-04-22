@@ -52,11 +52,11 @@ var activities map[string]activity.Activity
 
 {{- range  .PathData }} {{- range  .MethodData }} 
 func {{.HandlerName}}(ctx context.Context, inputs map[string]interface{}) (map[string]interface{}, error) {
-	return methodInvokeActvty(ctx, inputs, "{{.HandlerName}}")
+	return methodInvokerActivity(ctx, inputs, "{{.HandlerName}}")
 }
 {{- end }} {{- end }}
 
-func methodInvokeActvty(ctx context.Context, inputs map[string]interface{}, methodName string) (map[string]interface{}, error) {
+func methodInvokerActivity(ctx context.Context, inputs map[string]interface{}, methodName string) (map[string]interface{}, error) {
 
 	trgOut := &rest.Output{}
 	trgOut.FromMap(inputs)

@@ -42,6 +42,17 @@ func ExecuteTemplate(conversionType, outFilePath string, data interface{}) (bool
 	}
 	s := buf.String()
 
+	// check for outfilepath if not exist create it
+	if strings.Compare(outFilePath, ".") != 0 {
+		_, err := os.Stat(outFilePath)
+		if err != nil {
+			fErr := os.MkdirAll(outFilePath, 0777)
+			if fErr != nil {
+				log.Fatal("unable to create out folder: ", outFilePath, fErr)
+			}
+		}
+	}
+
 	createFileWithContent(filepath.Join(outFilePath, fileName), s)
 
 	// support File generation
@@ -85,5 +96,5 @@ func createFileWithContent(filename, content string) error {
 
 // ModifyPathSymbols modifies {} to : for flogo app usage
 func ModifyPathSymbols(path string) string {
-	return strings.ReplaceAll(strings.ReplaceAll(path, "{", ":"), "}", "")
+	return strings.Replace(strings.Replace(path, "{", ":", -1), "}", "", -1)
 }

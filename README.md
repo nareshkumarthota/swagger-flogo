@@ -4,7 +4,7 @@ Swagger to flogo app converter tool converts given swagger spec to its implement
 Currently this tool accepts below arguments.
 ```sh
 Usage of swagger-flogo:
-  -convertto string
+  -type string
         conversion type like flogoapiapp or flogodescriptor (default "flogoapiapp")
   -input string
         input swagger file (default "swagger.json")
@@ -23,9 +23,8 @@ go get github.com/nareshkumarthota/swagger-flogo/...
 ### Flogo app api model.
 ```sh
 cd $GOPATH/src/github.com/nareshkumarthota/swagger-flogo/examples
-mkdir flogoApiApp
 
-swagger-flogo -input swagger.json -convertto flogoapiapp -port 9090 -output flogoApiApp
+swagger-flogo -input swagger.json -type flogoapiapp -port 9090 -output flogoApiApp
 ```
 The resulting output is two files get created `flogoapiapp.go` and `support.go` under flogoApiApp folder.  Use both files to build/install app. User defined code can be written in `support.go`.
 ```sh
@@ -36,9 +35,8 @@ go build
 ### Flogo app descriptor model.
 ```sh
 cd $GOPATH/src/github.com/nareshkumarthota/swagger-flogo/examples
-mkdir flogoDescriptorApp
 
-swagger-flogo -input swagger.json -convertto flogodescriptor -port 9090 -output flogoDescriptorApp
+swagger-flogo -input swagger.json -type flogodescriptor -port 9090 -output flogoDescriptorApp
 ```
 The resulting output is two files get created `flogodescriptor.json` and `support.go` under flogoDescriptorApp folder. Use `flogodescriptor.json` to create flogo app. If you like to add any operation on incoming requests you can edit `support.go` file.
 
@@ -91,6 +89,9 @@ This tool can be integrated into [flogocli](https://github.com/project-flogo/cli
 # Install your plugin
 $ flogo plugin install github.com/nareshkumarthota/swagger-flogo/cmd
 
-# Run your new plugin command
-$ flogo appgen
+# Run your new plugin command for api app model
+$ flogo appgen -i swagger.json -t flogoapiapp -p 9090 -o flogoApiApp
+
+# Run your new plugin command for descriptor app model
+$ flogo appgen -i swagger.json -t flogodescriptor -p 9090 -o flogoDescriptorApp
 ```

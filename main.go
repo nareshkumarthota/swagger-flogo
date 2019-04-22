@@ -10,7 +10,7 @@ import (
 func main() {
 	input := flag.String("input", "swagger.json", "input swagger file")
 	port := flag.String("port", "8080", "flogo app running port")
-	conversionType := flag.String("convertto", "flogoapiapp", "conversion type like flogoapiapp or flogodescriptor")
+	conversionType := flag.String("type", "flogoapiapp", "conversion type like flogoapiapp or flogodescriptor")
 	output := flag.String("output", ".", "path to store generated file")
 
 	flag.Parse()
