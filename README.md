@@ -94,4 +94,7 @@ $ flogo appgen -i swagger.json -t flogoapiapp -p 9090 -o flogoApiApp
 
 # Run your new plugin command for descriptor app model
 $ flogo appgen -i swagger.json -t flogodescriptor -p 9090 -o flogoDescriptorApp
+
+# Remove your plugin
+$ flogo plugin remove github.com/nareshkumarthota/swagger-flogo/cmd
 ```
